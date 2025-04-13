@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RSVPCounts, RsvpService, RSVPStatus } from '../services/rsvp.service';
+import { Component } from '@angular/core';
+import { Player, RSVPCounts, RsvpService, RSVPStatus } from '../services/rsvp.service';
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
 
@@ -11,25 +11,29 @@ import { NgFor } from '@angular/common';
   styleUrl: './rsvp.component.css'
 })
 export class RsvpComponent {
-  player = '';
+  name = '';
+  email = '';
   status: RSVPStatus = 'Maybe';
   responseCounts: RSVPCounts = this.rsvpService.getResponseCounts();
   confirmedPlayers: string[] = [];
 
-  constructor(public rsvpService: RsvpService) { }
+  constructor(private rsvpService: RsvpService) { }
 
   ngOnInit() {
-    this.update();
+    this.fetchData();
   }
 
+  // called when the user clicks to RSVP
   addOrUpdateStatus() {
-    this.rsvpService.addOrUpdateStatus(this.player, this.status);
-    this.update();
-    this.player = '';
+    this.rsvpService.addOrUpdateStatus(this.name, this.email, this.status);
+    this.fetchData();
+    this.name = '';
+    this.email = '';
     this.status = 'Maybe';
   }
 
-  update() {
+  // re-calculate confirmed players and response breakdown after an RSVP
+  fetchData() {
     this.confirmedPlayers = this.rsvpService.getConfirmedPlayers();
     this.responseCounts = this.rsvpService.getResponseCounts();
   }

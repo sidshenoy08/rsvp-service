@@ -39,7 +39,9 @@ export class RsvpService {
       this.responses.set(name, rsvpStatus);
       console.log("Player RSVP recorded!");
       this.player.name = name;
-      if(email)
+
+      // if email is not blank and passes the validation check, set the player's email otherwise leave blank
+      if(email && email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
         this.player.email = email;
       
       console.log(this.player);

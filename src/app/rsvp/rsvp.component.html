@@ -1,0 +1,18 @@
+<h2>RSVP Service</h2>
+<input [(ngModel)]="player" placeholder="Player Name" />
+<select [(ngModel)]="status">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="Maybe">Maybe</option>
+</select>
+<button (click)="addOrUpdateStatus()">RSVP</button>
+
+<h3>Confirmed Attendees</h3>
+<ul>
+    <li *ngFor="let confirmedPlayer of confirmedPlayers">{{ confirmedPlayer }}</li>
+</ul>
+
+<h3>Counts</h3>
+<p>Total: {{ responseCounts.total }}</p>
+<p>Confirmed: {{ responseCounts.confirmed }}</p>
+<p>Declined: {{ responseCounts.declined }}</p>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Player, RSVPCounts, RsvpService, RSVPStatus } from '../services/rsvp.service';
+import { RSVPCounts, RsvpService, RSVPStatus } from '../services/rsvp.service';
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
 

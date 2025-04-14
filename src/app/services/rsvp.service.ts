@@ -24,12 +24,14 @@ export interface RSVPCounts {
 })
 export class RsvpService {
   private readonly STATUS: RSVPStatus[] = ["Yes", "No", "Maybe"];
+  private players: Player[] = [];
   private responses = new Map<string, RSVPStatus>();
-  private player: Player = {name: ''};
 
   constructor() { }
 
   addOrUpdateStatus(name: string, email: string, rsvpStatus: RSVPStatus): void {
+    const player: Player = { name: '' };
+
     // check whether the input RSVP status is valid
     if (!this.STATUS.includes(rsvpStatus)) {
       throw new Error(`Invalid RSVP status: ${rsvpStatus}`);
@@ -38,13 +40,31 @@ export class RsvpService {
     } else {
       this.responses.set(name, rsvpStatus);
       console.log("Player RSVP recorded!");
-      this.player.name = name;
+      player.name = name;
 
       // if email is not blank and passes the validation check, set the player's email otherwise leave blank
-      if(email && email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-        this.player.email = email;
-      
-      console.log(this.player);
+      if (email && email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        player.email = email;
+      }
+
+      if (this.players.length === 0) {
+        this.players.push(player);
+        console.log("New player added!");
+      } else {
+        // check if player with the given name already exists in the list of players to avoid duplicate entries
+        let playerExists = false;
+        for (let i = 0; i < this.players.length; i++) {
+          let existingPlayer = this.players[i];
+          if (existingPlayer.name === player.name) {
+            console.log("Player already exists in the database!");
+            playerExists = true;
+            break;
+          }
+        }
+
+        if (!playerExists)
+          this.players.push(player);
+      }
     }
   }
 

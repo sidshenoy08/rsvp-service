@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoggerService } from './logger.service';
 
 // RSVP responses can only be one of the following
 export type RSVPStatus = "Yes" | "No" | "Maybe";
@@ -27,19 +28,22 @@ export class RsvpService {
   private players: Player[] = [];
   private responses = new Map<string, RSVPStatus>();
 
-  constructor() { }
+  constructor(private logger: LoggerService) { }
 
   addOrUpdateStatus(name: string, email: string, rsvpStatus: RSVPStatus): void {
     const player: Player = { name: '' };
 
     // check whether the input RSVP status is valid
     if (!this.STATUS.includes(rsvpStatus)) {
+      this.logger.log("fatal", "Invalid RSVP status entered.");
       throw new Error(`Invalid RSVP status: ${rsvpStatus}`);
     } else if (!name) { // prompt the user to enter a name if blank
       alert("Please enter the player's name!");
+      this.logger.log("error", "Name was left blank.");
     } else {
       this.responses.set(name, rsvpStatus);
-      console.log("Player RSVP recorded!");
+      this.logger.log("info", "Player RSVP recorded!");
+
       player.name = name;
 
       // if email is not blank and passes the validation check, set the player's email otherwise leave blank
@@ -49,21 +53,23 @@ export class RsvpService {
 
       if (this.players.length === 0) {
         this.players.push(player);
-        console.log("New player added!");
+        this.logger.log("info", "New player added!");
       } else {
         // check if player with the given name already exists in the list of players to avoid duplicate entries
         let playerExists = false;
         for (let i = 0; i < this.players.length; i++) {
           let existingPlayer = this.players[i];
           if (existingPlayer.name === player.name) {
-            console.log("Player already exists in the database!");
+            this.logger.log("info", "Player already exists in the database!");
             playerExists = true;
             break;
           }
         }
 
-        if (!playerExists)
+        if (!playerExists) {
           this.players.push(player);
+          this.logger.log("info", "New player added!");
+        }
       }
     }
   }

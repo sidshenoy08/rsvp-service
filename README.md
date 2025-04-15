@@ -34,3 +34,4 @@ The rsvp service can perform the following functions.
 
 In the backend, the service stores the RSVP counts and the list of unique players. No persistent storage system has been integrated yet.
 The frontend is also minimal with no styling as the focus was on the backend functionality.
+A logger service has also been integrated that simply outputs messages to the console.

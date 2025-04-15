@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## End of Angular template ##
+The rsvp service can perform the following functions.
+  1. Add a new player's RSVP or update an existing player's RSVP.
+  2. Fetch the list of players who have confirmed their participation.
+  3. Fetch the total RSVP counts, accepted counts, and declined counts.
+
+In the backend, the service stores the RSVP counts and the list of unique players. No persistent storage system has been integrated yet.
+The frontend is also minimal with no styling as the focus was on the backend functionality.
